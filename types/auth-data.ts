@@ -1,9 +1,19 @@
 import { z } from "zod";
 import { tokenResetPasswordSchema } from "@/schemas/index";
+import signupSchema from "@/schemas/signup";
 
-export type PasswordEmail = {
+export type SignInType = {
   email: string;
   password: string;
+}
+
+export type signUpType = {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  image?: any;
 };
 
 export type TokenType = {
@@ -12,6 +22,7 @@ export type TokenType = {
 
 export type ResetType = {
   newPassword: string;
+  confirmNewPassword: string;
 };
 
 export type ForgotPasswordType = {
@@ -24,3 +35,4 @@ export type UserDataType = {
 };
 
 export type TokenResetPasswordType = z.infer<typeof tokenResetPasswordSchema>;
+export type SignUpType = z.infer<typeof signupSchema>;
