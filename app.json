@@ -30,7 +30,24 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": ["expo-router", "expo-font", "expo-secure-store"],
+    "plugins": [
+      "expo-router",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/SegoeUI.tff"
+          ]
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Permitir o acesso a geleria do dispositivo"
+        }
+      ],
+      "expo-secure-store"
+    ],
     "experiments": {
       "typedRoutes": true
     },

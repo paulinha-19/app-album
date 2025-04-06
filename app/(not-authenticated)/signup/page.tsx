@@ -8,206 +8,233 @@ import {
   SafeAreaView,
   ScrollView,
   ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform
 } from "react-native";
-import { Link, router } from "expo-router";
-import { LinearGradient } from "expo-linear-gradient";
-import { AxiosError } from "axios";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import * as ImagePicker from 'expo-image-picker';
+import { router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Box } from "@/components/ui/box";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PasswordEmail } from "@/types/index";
-import {emailPasswordSchema} from "@/schemas/index";
-import { ControlledInput } from "@/components/index";
-import { useAuth } from "@/hooks/useAuth";
-import { Colors } from "@/constants/Colors";
+import { SignUpType } from "@/types/index";
+import { signupSchema } from "@/schemas/index";
+import { useAuth, useTogglePassword } from "@/hooks/index";
+import { FormInput } from "@/components";
 
 export default function SignUpScreen() {
-  const [showPassword, setShowPassword] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { onRegister } = useAuth();
+
+  const { showPassword,
+    showConfirmPassword,
+    togglePassword,
+    toggleConfirmPassword } = useTogglePassword();
 
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    setValue,
+    formState: { errors, isValid },
     reset,
-  } = useForm<PasswordEmail>({
+  } = useForm<SignUpType>({
     mode: "onChange",
     defaultValues: {
+      name: "",
+      username: "",
       email: "",
       password: "",
+      confirmPassword: "",
+      image: null,
     },
-    resolver: zodResolver(emailPasswordSchema),
+    resolver: zodResolver(signupSchema),
   });
 
-  const toggleShowPassword = () => {
-    setShowPassword((prevState) => !prevState);
-  };
+  const pickImage = async () => {
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permission.granted) return;
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
 
-  const onSubmit = async (data: PasswordEmail) => {
-    try {
-      setLoading(true);
-      await onRegister(data);
-      setLoading(false);
-      router.replace("/(not-authenticated)/signin/page");
-      reset();
-    } catch (error) {
-      const err = error as AxiosError;
-      setLoading(false);
-      return err;
+    if (!result.canceled) {
+      const file = {
+        uri: result.assets[0].uri,
+        type: result.assets[0].type || "image/jpeg",
+        size: result.assets[0].fileSize || 100000,
+        name: result.assets[0].fileName || "image.jpg"
+      }
+      setSelectedImage(file.uri);
+      setValue("image", [file], { shouldValidate: true });
     }
   };
 
+  const onSubmit = (data: SignUpType) => {
+    console.log("data", data)
+    setLoading(true);
+    setLoading(false);
+    router.replace("/(not-authenticated)/signin/page");
+    reset();
+  };
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView style={{ flex: 1, backgroundColor: Colors.light.background }}>
-        <Box className="bg-primary-500" style={styles.containter}>
-          <Box style={styles.logoHome}>
-            <Image
-              style={styles.sizeLogo}
-              source={require("../../../assets/images/logo-lab-animal.png")}
-            />
-          </Box>
-          <Text style={styles.textHeader}>Criar uma conta</Text>
-          <Box style={styles.containerForm}>
-            <View style={styles.contaienerInputs}>
-              <ControlledInput
-                control={control}
-                name="email"
-                placeholder="Insira um email"
-                placeholderColor={Colors.dark.text}
-                label="Email"
-                autoCapitalize="none"
-                keyboardType="email-address"
-                leftIcon={
-                  <MaterialIcons
-                    name="alternate-email"
-                    size={24}
-                    color={Colors.light.background}
-                  />
-                }
-                errorMessage={errors?.email?.message}
-                borderColorInputFocus={Colors.light.text}
-                borderColorInputBlur="#7589A4"
-                backgroundColorInput="#7589A4"
-              />
-              <View>
-                <ControlledInput
-                  control={control}
-                  name="password"
-                  placeholder="Insira uma senha"
-                  placeholderColor={Colors.dark.text}
-                  label="Senha"
-                  secureTextEntry={!showPassword}
-                  autoCapitalize="none"
-                  leftIcon={
-                    <Ionicons
-                      name="lock-closed-outline"
-                      size={24}
-                      color={Colors.light.background}
-                    />
-                  }
-                  rightIcon={
-                    <Ionicons
-                      name={showPassword ? "eye-outline" : "eye-off-outline"}
-                      size={24}
-                      color={Colors.light.background}
-                      onPress={toggleShowPassword}
-                    />
-                  }
-                  errorMessage={errors?.password?.message}
-                  borderColorInputFocus={Colors.light.text}
-                  borderColorInputBlur="#7589A4"
-                  backgroundColorInput="#7589A4"
+    <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
+      >
+        <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+          <View style={styles.formContainer}>
+            <TouchableOpacity style={styles.avatarWrapper} onPress={pickImage}>
+              {selectedImage ? (
+                <Image
+                  source={{ uri: selectedImage }}
+                  style={styles.avatar}
                 />
-              </View>
-              <View style={styles.buttonSubmitContainer}>
-                <TouchableOpacity onPress={handleSubmit(onSubmit)}>
-                  <LinearGradient
-                    colors={["#35629d", Colors.light.background]}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 0, y: 1 }}
-                    style={styles.buttonSubmit}
-                  >
-                    <Text style={styles.textButtonSubmit}>
-                      {loading ? (
-                        <ActivityIndicator
-                          size="small"
-                          color={Colors.light.text}
-                        />
-                      ) : (
-                        "Cadastrar"
-                      )}
-                    </Text>
-                  </LinearGradient>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.containerCreateAccout}>
-                <Link href="/(not-authenticated)/signin/page">
-                  <Text style={[styles.textCreateAccout]}>
-                    Já tem uma conta? Faça o login
-                  </Text>
-                </Link>
-              </View>
-            </View>
-          </Box>
-        </Box>
-      </ScrollView>
-    </SafeAreaView>
+              ) : (
+                <View style={styles.avatarPlaceholder}>
+                  <Ionicons name="person" size={70} color="#999" />
+                </View>
+              )}
+              <Text style={styles.insertPhotoText}>Inserir foto</Text>
+            </TouchableOpacity>
+            <FormInput
+              label="Nome"
+              name="name"
+              placeholder="Digite seu nome"
+              error={errors.name?.message}
+              required={true}
+              control={control}
+            />
+            <FormInput
+              label="Nome do usuário"
+              name="username"
+              placeholder="Digite o nome do usuário"
+              error={errors.username?.message}
+              required={true}
+              control={control}
+              paddingTopLabel={20}
+            />
+            <FormInput
+              label="Email"
+              name="email"
+              placeholder="Digite seu email"
+              error={errors.email?.message}
+              required={true}
+              control={control}
+              paddingTopLabel={20}
+            />
+            <FormInput
+              label="Senha"
+              name="password"
+              placeholder="Mínimo de 6 caracteres"
+              error={errors.password?.message}
+              secureTextEntry={!showPassword}
+              required={true}
+              control={control}
+              iconRight={
+                <Ionicons
+                  name={showPassword ? "eye-outline" : "eye-off-outline"}
+                  size={24}
+                  onPress={togglePassword}
+                />
+              }
+              paddingTopLabel={20}
+            />
+            <FormInput
+              label="Confirmação da senha"
+              name="confirmPassword"
+              placeholder="Mínimo de 6 caracteres"
+              secureTextEntry={!showConfirmPassword}
+              error={errors.confirmPassword?.message}
+              required={true}
+              control={control}
+              iconRight={
+                <Ionicons
+                  name={showConfirmPassword ? "eye-outline" : "eye-off-outline"}
+                  size={24}
+                  onPress={toggleConfirmPassword}
+                />
+              }
+              paddingTopLabel={20}
+            />
+            <TouchableOpacity
+              disabled={!isValid || loading}
+              style={[
+                styles.buttonSubmit,
+                { backgroundColor: isValid ? "#D1349B" : "#EC9FD4" },
+              ]}
+              onPress={handleSubmit(onSubmit)}
+            >
+              {loading ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <Text style={styles.textButtonSubmit}>CRIAR CONTA</Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView >
   );
 }
 
 const styles = StyleSheet.create({
-  containter: {
+  container: {
     flex: 1,
+    backgroundColor: "white",
   },
-  logoHome: {
+  scroll: {
+    padding: 24,
     alignItems: "center",
   },
-  sizeLogo: {
-    width: 150,
-    height: 100,
-  },
-  textSize: {
-    fontSize: 30,
-  },
-  containerForm: {
-    width: "100%",
-    alignItems: "center",
-  },
-  contaienerInputs: {
+  formContainer: {
     width: "85%",
-    height: "100%",
+    backgroundColor: "transparent",
+    marginTop: 10
   },
-  buttonSubmitContainer: {
-    alignSelf: "center", // Centers the button horizontally
-    marginTop: 30,
+  title: {
+    fontSize: 22,
+    color: "white",
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  avatarWrapper: {
+    alignItems: "center",
+    marginBottom: 15,
+  },
+  avatar: {
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+  },
+  avatarPlaceholder: {
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+    backgroundColor: "#eee",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  insertPhotoText: {
+    color: "#4AACB3",
+    marginTop: 8,
+    fontSize: 20,
+    fontWeight: "600"
   },
   buttonSubmit: {
-    padding: 15,
-    width: 200,
+    marginTop: 30,
+    padding: 14,
     borderRadius: 8,
-    alignItems: "center", // Centers the content within the View
-    justifyContent: "center", // Aligns the content vertically
+    alignItems: "center",
   },
   textButtonSubmit: {
-    color: "white",
-    textAlign: "center",
-    fontSize: 16,
+    color: "#fff",
     fontWeight: "bold",
-  },
-  containerCreateAccout: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 5,
-  },
-  textCreateAccout: { fontSize: 14, color: Colors.light.text },
-  textHeader: {
-    color: Colors.light.text,
-    fontSize: 30,
-    textAlign: "center",
-    marginTop: 20,
+    fontSize: 17
   },
 });

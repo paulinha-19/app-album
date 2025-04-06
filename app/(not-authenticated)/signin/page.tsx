@@ -3,30 +3,25 @@ import {
   Text,
   View,
   StyleSheet,
-  Image,
   TouchableOpacity,
-  Platform,
-  ActivityIndicator,
-  SafeAreaView, 
-  ScrollView
+  SafeAreaView,
 } from "react-native";
 import { AxiosError } from "axios";
-import { LinearGradient } from "expo-linear-gradient";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { Link, router } from "expo-router";
-import { Box } from "@/components/ui/box";
+import { router } from "expo-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PasswordEmail } from "@/types/index";
-import {emailPasswordSchema} from "@/schemas/index";
-import { ControlledInput } from "@/components/index";
-import { useAuth } from "@/hooks/useAuth";
-import { Colors } from "@/constants/Colors";
+import { SignInType } from "@/types/index";
+import { emailPasswordSchema } from "@/schemas/index";
+import { useAuth } from "@/hooks/index";
+import { ForgotPasswordModal } from "@/components/ContentBaseModal/ForgotPasswordModal";
+import PasswordRecovery from "@/components/PasswordRecovery";
+import { FormInput } from "@/components";
 
 export default function Login() {
-  const [showPassword, setShowPassword] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [showTokenModal, setShowTokenModal] = useState(false);
+  const [showResetPasswordModal, setShowResetPasswordModal] = useState(false);
   const { signIn } = useAuth();
 
   const {
@@ -34,7 +29,7 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<PasswordEmail>({
+  } = useForm<SignInType>({
     mode: "onChange",
     defaultValues: {
       email: "",
@@ -43,11 +38,7 @@ export default function Login() {
     resolver: zodResolver(emailPasswordSchema),
   });
 
-  const toggleShowPassword = () => {
-    setShowPassword((prevState) => !prevState);
-  };
-
-  const onSubmit = async (data: PasswordEmail) => {
+  const onSubmit = async (data: SignInType) => {
     try {
       setLoading(true);
       await signIn(data);
@@ -62,169 +53,117 @@ export default function Login() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView style={{ flex: 1, backgroundColor: Colors.light.background }}>
-        <Box className="bg-primary-500" style={styles.containter}>
-          <Box style={styles.logoHome}>
-            <Image
-              style={styles.sizeLogo}
-              source={require("../../../assets/images/logo-lab-animal.png")}
-            />
-          </Box>
-          <Text style={styles.textHeader}>Login</Text>
-          <Box style={styles.containerForm}>
-            <View style={styles.contaienerInputs}>
-              <ControlledInput
-                control={control}
-                name="email"
-                placeholder="Insira seu email"
-                placeholderColor={Colors.dark.text}
-                label="Email"
-                autoCapitalize="none"
-                keyboardType="email-address"
-                leftIcon={
-                  <MaterialIcons
-                    name="alternate-email"
-                    size={24}
-                    color={Colors.light.background}
-                  />
-                }
-                errorMessage={errors?.email?.message}
-                borderColorInputFocus={Colors.light.text}
-                borderColorInputBlur="#7589A4"
-                backgroundColorInput="#7589A4"
-              />
-              <View>
-                <ControlledInput
-                  control={control}
-                  name="password"
-                  placeholder="Insira sua senha"
-                  placeholderColor="#ddd"
-                  label="Senha"
-                  secureTextEntry={!showPassword}
-                  autoCapitalize="none"
-                  leftIcon={
-                    <Ionicons
-                      name="lock-closed-outline"
-                      size={24}
-                      color={Colors.light.background}
-                    />
-                  }
-                  rightIcon={
-                    <Ionicons
-                      name={showPassword ? "eye-outline" : "eye-off-outline"}
-                      size={24}
-                      color={Colors.light.background}
-                      onPress={toggleShowPassword}
-                    />
-                  }
-                  errorMessage={errors?.password?.message}
-                  borderColorInputFocus={Colors.light.text}
-                  borderColorInputBlur="#7589A4"
-                  backgroundColorInput="#7589A4"
-                />
-              </View>
-              <View style={styles.containerForgotPassword}>
-                <Link href="/(not-authenticated)/forgot-password/page">
-                  <Text style={styles.forgotPasswordLink}>
-                    Esqueci minha senha
-                  </Text>
-                </Link>
-              </View>
-              <View style={styles.buttonSubmitContainer}>
-                <TouchableOpacity onPress={handleSubmit(onSubmit)}>
-                  <LinearGradient
-                    colors={["#35629d", Colors.light.background]}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 0, y: 1 }}
-                    style={styles.buttonSubmit}
-                  >
-                    <Text style={styles.textButtonSubmit}>
-                      {loading ? (
-                        <ActivityIndicator
-                          size="small"
-                          color={Colors.light.text}
-                        />
-                      ) : (
-                        "Entrar"
-                      )}
-                    </Text>
-                  </LinearGradient>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.containerCreateAccout}>
-                <Link href="/(not-authenticated)/signup/page">
-                  <Text style={[styles.textCreateAccout]}>
-                    Ainda não tem uma conta? Cadastre-se
-                  </Text>
-                </Link>
-              </View>
-            </View>
-          </Box>
-        </Box>
-      </ScrollView>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.formContainer}>
+        <FormInput
+          label="Email"
+          name="email"
+          placeholder="Digite seu email"
+          required={true}
+          control={control}
+          colorLabel="white"
+        />
+        <FormInput
+          label="Senha"
+          name="password"
+          placeholder="Mínimo de 6 caracteres"
+          required={true}
+          control={control}
+          paddingTopLabel={20}
+          colorLabel="white"
+        />
+        <TouchableOpacity style={styles.loginButton}>
+          <Text style={styles.loginButtonText}>ENTRAR</Text>
+        </TouchableOpacity>
+        <ForgotPasswordModal
+          visible={showForgotPassword}
+          onClose={() => setShowForgotPassword(false)}
+          onSuccess={() => {
+            setShowForgotPassword(false);
+            setShowTokenModal(true);
+          }}
+        />
+
+        <PasswordRecovery
+          showTokenModal={showTokenModal}
+          setShowTokenModal={setShowTokenModal}
+          showResetPasswordModal={showResetPasswordModal}
+          setShowResetPasswordModal={setShowResetPasswordModal}
+        />
+
+        <TouchableOpacity onPress={() => setShowForgotPassword(true)}>
+          <Text style={styles.forgotText}>Esqueci minha senha</Text>
+        </TouchableOpacity>
+        <View style={styles.divider} />
+
+        <TouchableOpacity style={styles.signupButton} onPress={() => router.push("/(not-authenticated)/signup/page")}>
+          <Text style={styles.signupButtonText}>NOVO USUÁRIO</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  containter: {
+  container: {
     flex: 1,
-    position: "relative",
-  },
-  logoHome: {
-    alignItems: "center",
-  },
-  sizeLogo: {
-    width: 150,
-    height: 100,
-  },
-  textSize: {
-    fontSize: 40,
-  },
-  containerForm: {
-    width: "100%",
-    alignItems: "center",
-  },
-  contaienerInputs: {
-    width: "85%",
-    height: "100%",
-  },
-  containerForgotPassword: {
-    marginTop: Platform.OS === "ios" ? 5 : 1,
-  },
-  forgotPasswordLink: {
-    color: Colors.light.text,
-    fontSize: 12,
-    textAlign: "right",
-  },
-  buttonSubmitContainer: {
-    alignSelf: "center", // Centers the button horizontally
-  },
-  buttonSubmit: {
-    padding: 15,
-    width: 200,
-    borderRadius: 8,
-    alignItems: "center", // Centers the content within the View
-    justifyContent: "center", // Aligns the content vertically
-    marginTop: 15,
-  },
-  textButtonSubmit: {
-    color: "white",
-    textAlign: "center",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  containerCreateAccout: {
-    flexDirection: "row",
+    backgroundColor: "#45A9B3",
     justifyContent: "center",
-    marginTop: 5,
+    alignItems: "center",
   },
-  textCreateAccout: { fontSize: 12, color: Colors.light.text },
-  textHeader: {
-    color: Colors.light.text,
-    fontSize: 30,
+  formContainer: {
+    width: "85%",
+    backgroundColor: "transparent",
+  },
+  label: {
+    color: "white",
+    marginBottom: 5,
+    marginTop: 15,
+    fontSize: 18,
+    marginLeft: 8
+  },
+  input: {
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 10,
+    fontSize: 16,
+    height: 46,
+  },
+  placeholderTextColor: {
+    color: "#888"
+  },
+  loginButton: {
+    backgroundColor: "#D1349B",
+    marginTop: 30,
+    paddingVertical: 14,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  loginButtonText: {
+    color: "white",
+    fontSize: 17
+  },
+  forgotText: {
+    color: "white",
+    marginTop: 25,
     textAlign: "center",
-    marginTop: 20,
+    fontSize: 18
+  },
+  divider: {
+    borderBottomWidth: 1,
+    borderBottomColor: "white",
+    marginVertical: 20,
+    opacity: 0.6
+  },
+  signupButton: {
+    borderWidth: 1.5,
+    borderColor: "white",
+    borderRadius: 10,
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+  signupButtonText: {
+    color: "white",
+    fontSize: 17
   },
 });

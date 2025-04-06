@@ -8,6 +8,9 @@ import { CalculationAdministeredResults } from "./Calculalation/CalculationAdmin
 import { CustomAlert } from "./CustomAlert";
 import { TypewriterText } from "./TypewriterText";
 import { UrlSelectionModal } from "./UrlSelectionModal";
+import { BaseModal } from "./BaseModal";
+import { FormInput } from "./FormInput";
+
 export {
   ControlledInput,
   Divider,
@@ -19,4 +22,6 @@ export {
   CustomAlert,
   TypewriterText,
   UrlSelectionModal,
+  BaseModal,
+  FormInput
 };
