@@ -4,20 +4,22 @@ import {
 } from "./calculations";
 import {
   ForgotPasswordType,
-  PasswordEmail,
-  ResetType,
+  SignUpType,
   TokenType,
   UserDataType,
-  TokenResetPasswordType
+  TokenResetPasswordType,
+  SignInType,
+  ResetType
 } from "./auth-data";
 
 export {
   TypeCalculationAdministered,
   CalculationAdministeredForm,
   ForgotPasswordType,
-  PasswordEmail,
+  SignUpType,
   ResetType,
   TokenType,
   UserDataType,
-  TokenResetPasswordType
+  TokenResetPasswordType,
+  SignInType
 };
