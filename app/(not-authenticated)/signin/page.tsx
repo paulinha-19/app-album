@@ -59,7 +59,6 @@ export default function Login() {
           label="Email"
           name="email"
           placeholder="Digite seu email"
-          error={errors.email?.message}
           required={true}
           control={control}
           colorLabel="white"
@@ -68,7 +67,6 @@ export default function Login() {
           label="Senha"
           name="password"
           placeholder="Mínimo de 6 caracteres"
-          error={errors.password?.message}
           required={true}
           control={control}
           paddingTopLabel={20}
