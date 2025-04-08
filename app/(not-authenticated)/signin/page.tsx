@@ -42,7 +42,7 @@ export default function Login() {
     try {
       setLoading(true);
       await signIn(data);
-      router.replace("/(authenticated)/home");
+      router.replace("/(authenticated)/(tabs)/album");
       setLoading(false);
       reset();
     } catch (error) {
