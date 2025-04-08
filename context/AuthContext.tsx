@@ -1,43 +1,11 @@
-// import React, { createContext, useState, useEffect, useContext } from "react";
-// import { Session } from "@supabase/supabase-js";
-// import { User } from "@supabase/supabase-js";
-
-// interface AuthContextProps {
-//   user: User | null;
-//   setAuth: (authUser: User | null) => void;
-// }
-
-// const AuthContext = createContext({} as AuthContextProps);
-
-// export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-//   const [user, setUser] = useState<User | null>(null);
-//   const [session, setSession] = useState<Session | null>(null);
-
-//   function setAuth(authUser: User | null) {
-//     setUser(authUser);
-//   }
-
-//   return (
-//     <AuthContext.Provider
-//       value={{
-//         user,
-//         setAuth,
-//       }}
-//     >
-//       {children}
-//     </AuthContext.Provider>
-//   );
-// };
-
-// export const useAuth = () => useContext(AuthContext);
-
 import { createContext, useEffect, useState } from "react";
 import * as SecureStore from "expo-secure-store";
 import { IAuthProvider, IAuthContext } from "@/interface/auth";
 import {
   UserDataType,
   ForgotPasswordType,
-  PasswordEmail
+  signUpType,
+  SignInType
 } from "@/types/auth-data";
 import {
   forgotPasswordRequest,
@@ -74,7 +42,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
     checkAuth();
   }, []);
 
-  const signIn = async ({ email, password }: PasswordEmail) => {
+  const signIn = async ({ email, password }: SignInType) => {
     const { data, request } = await signInRequest({
       email,
       password,
@@ -84,17 +52,16 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
     setUser(data);
   };
 
-  const onRegister = async ({ email, password }: PasswordEmail) => {
+  const onRegister = async ({ image, name, username, email, password, confirmPassword }: signUpType) => {
     const { data } = await registerRequest({
-      email,
-      password,
+      image, name, username, email, password, confirmPassword
     });
     const { message } = data;
     Alert.alert(message);
   };
 
   const forgotPassword = async ({ email }: ForgotPasswordType) => {
-    const {data} = await forgotPasswordRequest({
+    const { data } = await forgotPasswordRequest({
       email,
     });
     setEmail({ email });
@@ -123,7 +90,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
         signOut,
         getToken,
         isAuthenticatedUser,
-        loading, 
+        loading,
         setLoading
       }}
     >
