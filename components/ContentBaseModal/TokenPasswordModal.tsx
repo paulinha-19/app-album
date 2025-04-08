@@ -41,15 +41,15 @@ export const TokenPasswordModal = ({ visible, onClose, onTokenSubmit }: TokenPas
       reset();
       onClose();
     }}>
-      <Text style={styles.title}>INSIRA O TOKEN DE ACESSO</Text>
+      <Text style={styles.title}>INSIRA O CÓDIGO DE ACESSO</Text>
       <Text style={styles.description}>
         Foi enviado para o seu email um token de acesso para a troca de senha.
-        Insira este token no campo abaixo para continuar.
+        Insira o código de acesso no campo abaixo para continuar.
       </Text>
       <FormInput
-        label="Token"
+        label="Código"
         name="token"
-        placeholder="Digite o token"
+        placeholder="Digite o código"
         keyboardType="numeric"
         error={errors.token?.message}
         required={true}
