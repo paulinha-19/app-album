@@ -54,7 +54,7 @@ export const ForgotPasswordModal = ({ visible, onClose, onSuccess }: IForgotPass
                 <Text style={styles.title}>RECUPERAR SENHA</Text>
                 <Text style={styles.description}>
                     Insira no campo abaixo o endereço de email usado no aplicativo para
-                    receber um token de troca de senha.
+                    receber um código de troca de senha.
                 </Text>
                 <FormInput
                     label="Email"
