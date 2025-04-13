@@ -19,6 +19,18 @@ const getStickerStyle = (index: number, styles: any) => {
   }
 };
 
+const getNumericQuantity = (quantity: string) => {
+  const match = quantity.match(/\d+/);
+  return match ? parseInt(match[0], 10) : 1;
+};
+
+
+const handlePurchase = (disabled: boolean, setShowReveal: (value: React.SetStateAction<boolean>) => void) => {
+  if (disabled) return;
+  setShowReveal(true);
+};
+
+
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 const horizontalPadding = 40;
@@ -34,5 +46,5 @@ const screenWidthPurchaseReveal = Dimensions.get("window").width;
 
 
 export {
-  nextPage, getStickerStyle, screenHeight, screenWidth, horizontalPadding, cardHeight, cardWidth, isSmallScreen, screenHeightNewSticker, screenWidthNewSticker, screenHeightPurchaseReveal, screenWidthPurchaseReveal
+  nextPage, getStickerStyle, getNumericQuantity, handlePurchase, screenHeight, screenWidth, horizontalPadding, cardHeight, cardWidth, isSmallScreen, screenHeightNewSticker, screenWidthNewSticker, screenHeightPurchaseReveal, screenWidthPurchaseReveal
 }
