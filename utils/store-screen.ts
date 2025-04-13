@@ -29,6 +29,10 @@ const isSmallScreen = screenWidth <= 540 && screenHeight <= 960;
 const screenHeightNewSticker = Dimensions.get("window").height;
 const screenWidthNewSticker = Dimensions.get("window").width;
 
+const screenHeightPurchaseReveal = Dimensions.get("window").height;
+const screenWidthPurchaseReveal = Dimensions.get("window").width;
+
+
 export {
-  nextPage, getStickerStyle, screenHeight, screenWidth, horizontalPadding, cardHeight, cardWidth, isSmallScreen, screenHeightNewSticker, screenWidthNewSticker
+  nextPage, getStickerStyle, screenHeight, screenWidth, horizontalPadding, cardHeight, cardWidth, isSmallScreen, screenHeightNewSticker, screenWidthNewSticker, screenHeightPurchaseReveal, screenWidthPurchaseReveal
 }
