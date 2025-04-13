@@ -1,4 +1,5 @@
 import { mockAlbum } from "@/data/mockAlbum";
+import { Dimensions } from "react-native";
 
 const flattenedCategorias = mockAlbum.flatMap((area) =>
     area.categorias.map((categoria) => ({
@@ -30,5 +31,12 @@ const getStickerRows = (stickers: any) => {
     return rows;
 };
 
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
+const horizontalPadding = 40;
+const stickerWidth = (screenWidth - horizontalPadding - 20) / 2;
+const stickerHeight = stickerWidth * (4 / 3);
+const isSmallScreen = screenWidth <= 540 && screenHeight <= 960;
 
-export { flattenedCategorias, nextPageAlbum, prevPageAlbum, getStickerRows }
+
+export { flattenedCategorias, nextPageAlbum, prevPageAlbum, getStickerRows, isSmallScreen, stickerHeight, stickerWidth }

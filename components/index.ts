@@ -10,6 +10,7 @@ import { TypewriterText } from "./TypewriterText";
 import { UrlSelectionModal } from "./UrlSelectionModal";
 import { BaseModal } from "./BaseModal";
 import { FormInput } from "./FormInput";
+import StoreCard from "./StoreCard";
 
 export {
   ControlledInput,
@@ -23,5 +24,6 @@ export {
   TypewriterText,
   UrlSelectionModal,
   BaseModal,
-  FormInput
+  FormInput,
+  StoreCard
 };

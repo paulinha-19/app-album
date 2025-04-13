@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet, Platform, Dimensions, ScrollView } from "react-native";
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import Constants from 'expo-constants';
-import { flattenedCategorias, prevPageAlbum, nextPageAlbum, getStickerRows } from "@/utils/album-screen";
+import Header from "@/components/common/Header";
+import { flattenedCategorias, prevPageAlbum, nextPageAlbum, getStickerRows, isSmallScreen, stickerHeight, stickerWidth } from "@/utils/album-screen";
 
 export default function AlbumScreen() {
     const [categoryIndex, setCategoryndex] = useState(0);
@@ -26,11 +26,16 @@ export default function AlbumScreen() {
 
     return (
         <View style={styles.container}>
-            <View style={styles.headerContainer}>
-                <Text style={[styles.header, styles.headerText]}>{`Álbum | ${category.area}`}</Text>
-                <Image source={require("../../../../assets/images/kebab-menu.png")} style={styles.kebabMenu} />
-            </View>
-
+            <Header
+                title={`Álbum | ${category.area}`}
+                containerStyle={styles.headerText}
+                rightComponent={
+                    <Image
+                        source={require("../../../../assets/images/kebab-menu.png")}
+                        style={[styles.kebabMenu]}
+                    />
+                }
+            />
             <View style={styles.navContainer}>
                 <TouchableOpacity onPress={() => prevPageAlbum(categoryIndex, setCategoryndex)} style={styles.arrowButton}>
                     <Ionicons name="chevron-back" size={40} color="#4AACB3" />
@@ -65,12 +70,7 @@ export default function AlbumScreen() {
     );
 }
 
-const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height;
-const horizontalPadding = 40;
-const stickerWidth = (screenWidth - horizontalPadding - 20) / 2;
-const stickerHeight = stickerWidth * (4 / 3);
-const isSmallScreen = screenWidth <= 540 && screenHeight <= 960;
+
 
 const styles = StyleSheet.create({
     container: {
@@ -80,20 +80,8 @@ const styles = StyleSheet.create({
     scrollContainer: {
         paddingBottom: 20
     },
-    headerContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        backgroundColor: "#4AACB3",
-        paddingVertical: 8,
-        paddingTop: Platform.OS === 'ios' ? Constants.statusBarHeight : 5
-    },
-    header: {
-        fontSize: 23,
-        color: "white",
-    },
     headerText: {
-        paddingLeft: 40
+        paddingLeft: 35
     },
     navContainer: {
         flexDirection: "row",
