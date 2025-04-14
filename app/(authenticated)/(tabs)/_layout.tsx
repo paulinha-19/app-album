@@ -1,6 +1,5 @@
 import React from "react";
 import { Tabs } from "expo-router";
-import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { TabBarImageIcon } from "@/components/navigation/TabBarImageIcon";
 import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet } from "react-native";
@@ -40,7 +39,7 @@ export default function TabsLayout() {
                 }}
             />
             <Tabs.Screen
-                name="stickers/index"
+                name="stickers"
                 options={{
                     title: "",
                     tabBarIcon: ({ color, focused }) => (

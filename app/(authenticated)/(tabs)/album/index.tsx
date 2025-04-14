@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     },
     stickerWrapper: {
         flex: 1,
-        borderWidth: 8,
+        borderWidth: 6,
         borderColor: "white",
 
         // Shadow (iOS)
