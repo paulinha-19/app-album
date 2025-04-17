@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { StickerDetailModal } from "../StickerDetailModal";
-import { getIconSource } from "@/utils/sticker-details";
+import { Entypo, Ionicons } from "@expo/vector-icons";
 
 interface Link {
     label: string;
@@ -11,6 +11,16 @@ interface Link {
 interface StickerFooterProps {
     icons: Link[];
 }
+
+const getIcon = (url: string) => {
+    if (url.includes("linkedin")) {
+      return <Entypo name="linkedin" size={20} color="#0077B5" />;
+    }
+    if (url.includes("instagram")) {
+      return <Entypo name="instagram" size={20} color="#E1306C" />;
+    }
+    return <Ionicons name="globe-outline" size={20} color="#666" />;
+  };
 
 export function StickerDetailFooter({ icons }: StickerFooterProps) {
     const [selectedLink, setSelectedLink] = useState<string | null>(null);
@@ -23,7 +33,7 @@ export function StickerDetailFooter({ icons }: StickerFooterProps) {
                     style={styles.iconWrapper}
                     onPress={() => setSelectedLink(icon.link)}
                 >
-                    <Image source={getIconSource(icon.link)} style={styles.iconImage} />
+                    {getIcon(icon.link)}
                     <Text style={styles.label}>{icon.label}</Text>
                 </TouchableOpacity>
             ))}
@@ -35,21 +45,15 @@ StickerDetailFooter.displayName = 'StickerDetail.Footer'
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 20,
-        gap: 10
+        gap: 20
     },
     iconWrapper: {
         flexDirection: "row",
         alignItems: "center",
-        gap: 8,
-    },
-    iconImage: {
-        width: 30,
-        height: 30,
-        resizeMode: "cover",
+        gap: 10,
     },
     label: {
-        fontSize: 14,
+        fontSize: 12,
         color: "#fff",
     }
 });
