@@ -26,7 +26,7 @@ export default function TabsLayout() {
             }}
         >
             <Tabs.Screen
-                name="album/index"
+                name="album"
                 options={{
                     title: "",
                     tabBarIcon: ({ color, focused }) => (

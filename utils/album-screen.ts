@@ -1,5 +1,6 @@
 import { mockAlbum } from "@/data/mockAlbum";
 import { Dimensions } from "react-native";
+import { AreaProgress } from "@/interface/album";
 
 const flattenedCategorias = mockAlbum.flatMap((area) =>
     area.categorias.map((categoria) => ({
@@ -38,5 +39,32 @@ const stickerWidth = (screenWidth - horizontalPadding - 20) / 2;
 const stickerHeight = stickerWidth * (4 / 3);
 const isSmallScreen = screenWidth <= 540 && screenHeight <= 960;
 
+const getAlbumProgress = (): AreaProgress[] => {
+  return mockAlbum.map((areaItem) => {
+    const totalStickers = areaItem.categorias.reduce(
+      (acc, cat) => acc + cat.figurinhas.length,
+      0
+    );
+    const glued = areaItem.categorias.reduce(
+      (acc, cat) => acc + cat.figurinhas.filter(f => f.colada).length,
+      0
+    );
+    const progress = (glued / totalStickers) * 100;
 
-export { flattenedCategorias, nextPageAlbum, prevPageAlbum, getStickerRows, isSmallScreen, stickerHeight, stickerWidth }
+    // Index da primeira categoria dessa área em flattenedCategorias
+    const firstCategoryTitle = areaItem.categorias[0].titulo;
+    const categoryIndex = flattenedCategorias.findIndex(cat => cat.titulo === firstCategoryTitle && cat.area === areaItem.area);
+
+    return {
+      area: areaItem.area,
+      totalStickers,
+      glued,
+      progress,
+      categoryIndex
+    };
+  });
+};
+
+
+
+export { flattenedCategorias, nextPageAlbum, prevPageAlbum, getStickerRows, isSmallScreen, stickerHeight, stickerWidth, getAlbumProgress }

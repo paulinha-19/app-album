@@ -77,4 +77,49 @@ export const mockAlbum = [
             },
         ],
     },
+    {
+        area: "Área 4",
+        categorias: [
+            {
+                titulo: "Desenvolvimento Sustentável",
+                subtitulo: "Metas e Resultados",
+                figurinhas: [
+                    { id: 28, colada: false, imagem: require("../assets/images/fig-2.png") },
+                    { id: 29, colada: true, imagem: require("../assets/images/fig-2.png") },
+                    { id: 30, colada: false, imagem: require("../assets/images/fig-1.png") },
+                    { id: 31, colada: true, imagem: require("../assets/images/fig-1.png") },
+                ],
+            },
+        ],
+    },
+    {
+        area: "Área 5",
+        categorias: [
+            {
+                titulo: "Desenvolvimento Sustentável",
+                subtitulo: "Metas e Resultados",
+                figurinhas: [
+                    { id: 32, colada: false, imagem: require("../assets/images/fig-2.png") },
+                    { id: 33, colada: true, imagem: require("../assets/images/fig-2.png") },
+                    { id: 34, colada: false, imagem: require("../assets/images/fig-1.png") },
+                    { id: 35, colada: true, imagem: require("../assets/images/fig-1.png") },
+                ],
+            },
+        ],
+    },
+    {
+        area: "Patrocinadores",
+        categorias: [
+            {
+                titulo: "Desenvolvimento Sustentável",
+                subtitulo: "Metas e Resultados",
+                figurinhas: [
+                    { id: 36, colada: false, imagem: require("../assets/images/fig-2.png") },
+                    { id: 37, colada: false, imagem: require("../assets/images/fig-2.png") },
+                    { id: 38, colada: false, imagem: require("../assets/images/fig-1.png") },
+                    { id: 27, colada: false, imagem: require("../assets/images/fig-1.png") },
+                ],
+            },
+        ],
+    },
 ];

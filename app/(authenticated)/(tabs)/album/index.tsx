@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import { router, useLocalSearchParams  } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import Header from "@/components/common/Header";
 import { flattenedCategorias, prevPageAlbum, nextPageAlbum, getStickerRows, isSmallScreen, stickerHeight, stickerWidth } from "@/utils/album-screen";
+import { PopoverMenu } from "@/components/common/PopoverMenu";
 
 export default function AlbumScreen() {
-    const [categoryIndex, setCategoryndex] = useState(0);
-    const category = flattenedCategorias[categoryIndex];
+    const { categoryIndex } = useLocalSearchParams();
+    const [currentIndex, setCurrentIndex] = useState(Number(categoryIndex) || 0);
+    const [menuVisible, setMenuVisible] = useState(false);
+    const category = flattenedCategorias[currentIndex];
+
 
     const renderSticker = (item: any) => (
         <View key={`${item.id}-${categoryIndex}`} style={styles.stickerBox}>
@@ -30,14 +35,25 @@ export default function AlbumScreen() {
                 title={`Álbum | ${category.area}`}
                 containerStyle={styles.headerText}
                 rightComponent={
-                    <Image
-                        source={require("../../../../assets/images/kebab-menu.png")}
-                        style={[styles.kebabMenu]}
-                    />
+                    <TouchableOpacity onPress={() => setMenuVisible(true)}>
+                        <Image
+                            source={require("../../../../assets/images/kebab-menu.png")}
+                            style={[styles.kebabMenu]}
+                        />
+                    </TouchableOpacity>
                 }
             />
+
+            <PopoverMenu
+                visible={menuVisible}
+                onClose={() => setMenuVisible(false)}
+                items={[
+                    { label: "Lista de categorias", onPress: () => router.push("/(authenticated)/(tabs)/album/list-categories") },
+                ]}
+            />
+
             <View style={styles.navContainer}>
-                <TouchableOpacity onPress={() => prevPageAlbum(categoryIndex, setCategoryndex)} style={styles.arrowButton}>
+                <TouchableOpacity onPress={() => prevPageAlbum(currentIndex, setCurrentIndex)} style={styles.arrowButton}>
                     <Ionicons name="chevron-back" size={40} color="#4AACB3" />
                 </TouchableOpacity>
 
@@ -46,7 +62,7 @@ export default function AlbumScreen() {
                     {category.subtitulo && <Text style={styles.subtitle}>{category.subtitulo}</Text>}
                 </View>
 
-                <TouchableOpacity onPress={() => nextPageAlbum(categoryIndex, setCategoryndex)} style={styles.arrowButton}>
+                <TouchableOpacity onPress={() => nextPageAlbum(currentIndex, setCurrentIndex)} style={styles.arrowButton}>
                     <Ionicons name="chevron-forward" size={40} color="#4AACB3" />
                 </TouchableOpacity>
             </View>
