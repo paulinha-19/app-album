@@ -45,6 +45,7 @@ export default function UndoingFriendShipScreen() {
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
                     {friendsWithId.map((friend) => (
                         <FriendsList
+                            key={friend.id}
                             avatar={friend.imagem}
                             name={friend.nome}
                             username={friend.username}
