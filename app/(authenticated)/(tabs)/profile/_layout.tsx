@@ -9,7 +9,7 @@ export default function ProfileStack() {
         headerRight: () => (
           <HeaderIcon source={require("../../../../assets/images/settings-icon.png")} items={[
             { label: "Editar perfil", onPress: () => { } },
-            { label: "Sobre o app", onPress: () => { } }
+            { label: "Sobre o app", onPress: () => { router.push("/(authenticated)/(tabs)/profile/about-app") } }
           ]} />
         ), headerShown: true, headerBackTitle: "", headerTitleAlign: "left", headerTitle: "Perfil", headerTitleStyle: { fontSize: 20 }, headerTintColor: "white", headerStyle: { backgroundColor: "#4AACB3" }
       }} />
@@ -24,6 +24,7 @@ export default function ProfileStack() {
       <Stack.Screen name="add-friends" options={{ headerShown: true, headerBackTitle: "Voltar", headerTitleAlign: "left", headerTitle: "Adicionar amigo", headerTitleStyle: { fontSize: 20 }, headerTintColor: "white", headerStyle: { backgroundColor: "#4AACB3" } }} />
       <Stack.Screen name="missions" options={{ headerShown: true, headerBackTitle: "Voltar", headerTitleAlign: "left", headerTitle: "Missões", headerTitleStyle: { fontSize: 20 }, headerTintColor: "white", headerStyle: { backgroundColor: "#4AACB3" } }} />
       <Stack.Screen name="my-tickets" options={{ headerShown: true, headerBackTitle: "Voltar", headerTitleAlign: "left", headerTitle: "Meus tickets da sorte", headerTitleStyle: { fontSize: 20 }, headerTintColor: "white", headerStyle: { backgroundColor: "#4AACB3" } }} />
+      <Stack.Screen name="about-app" options={{ headerShown: true, headerBackTitle: "Voltar", headerTitleAlign: "left", headerTitle: "Sobre o app", headerTitleStyle: { fontSize: 20 }, headerTintColor: "white", headerStyle: { backgroundColor: "#4AACB3" } }} />
       <Stack.Screen name="undoing-friendship" options={{ headerShown: true, headerBackTitle: "Voltar", headerTitleAlign: "left", headerTitle: "Desfazer amizade", headerTitleStyle: { fontSize: 20 }, headerTintColor: "white", headerStyle: { backgroundColor: "#4AACB3" } }} />
     </Stack>
   );
