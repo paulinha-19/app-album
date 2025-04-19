@@ -7,13 +7,14 @@ interface MenuItem {
     onPress: () => void;
 }
 
-interface FriendsMenuIconProps {
+interface HeaderIconProps {
     items: MenuItem[];
     source?: ImageSourcePropType | undefined
 }
 
-export default function HeaderIcon({ items, source }: FriendsMenuIconProps) {
+export default function HeaderIcon({ items, source }: HeaderIconProps) {
     const [visible, setVisible] = useState(false);
+    
     return (
         <>
             <TouchableOpacity onPress={() => setVisible(true)} style={{ marginRight: 0 }}>
