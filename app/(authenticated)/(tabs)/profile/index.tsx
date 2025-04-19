@@ -1,10 +1,11 @@
-import { View, StyleSheet, ScrollView, Text } from "react-native"
-import { SectionCard, FriendsList, MissionsList } from "@/components/common"
+import { View, StyleSheet, ScrollView } from "react-native"
+import { SectionCard, FriendsList, MissionsList, MyTicketsList } from "@/components/common"
 import { UserProfile } from "@/components";
 import { getAlbumProgress } from "@/utils/album-screen";
 import { mockFriends } from "@/data/friends";
 import { mockMissions } from "@/data/missions";
 import { router } from "expo-router";
+import { mockMyTickets } from "@/data/my-tickets";
 
 export default function ProfileScreen() {
     const albumProgress = getAlbumProgress();
@@ -14,7 +15,7 @@ export default function ProfileScreen() {
 
     return (
         <View style={styles.container}>
-            <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <UserProfile
                     name="Davi Luís"
                     level={6}
@@ -48,6 +49,16 @@ export default function ProfileScreen() {
                         />
                     ))}
                 </SectionCard>
+                <View style={styles.divisor}></View>
+                <SectionCard title="Meus tickets da sorte" onSeeAll={() => router.push("/(authenticated)/(tabs)/profile/my-tickets")}>
+                    {mockMyTickets.slice(0, 2).map((ticket) => (
+                        <MyTicketsList
+                            key={ticket.id}
+                            image={ticket.image}
+                            numero={ticket.numero}
+                        />
+                    ))}
+                </SectionCard>
             </ScrollView>
         </View>
     )
@@ -57,9 +68,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#F0F3F4"
-    },
-    scrollContainer: {
-        paddingBottom: 20
     },
     divisor: {
         marginVertical: 8
