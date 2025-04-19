@@ -21,7 +21,6 @@ export default function ProfileStack() {
           ]} />
         ), headerShown: true, headerBackTitle: "Voltar", headerTitleAlign: "left", headerTitle: "Amigos", headerTitleStyle: { fontSize: 20 }, headerTintColor: "white", headerStyle: { backgroundColor: "#4AACB3" }
       }} />
-      <Stack.Screen name="missions" options={{ headerShown: true, headerBackTitle: "Voltar", headerTitleAlign: "left", headerTitle: "Missões", headerTitleStyle: { fontSize: 20 }, headerTintColor: "white", headerStyle: { backgroundColor: "#4AACB3" } }} />
       <Stack.Screen name="add-friends" options={{ headerShown: true, headerBackTitle: "Voltar", headerTitleAlign: "left", headerTitle: "Adicionar amigo", headerTitleStyle: { fontSize: 20 }, headerTintColor: "white", headerStyle: { backgroundColor: "#4AACB3" } }} />
       <Stack.Screen name="undoing-friendship" options={{ headerShown: true, headerBackTitle: "Voltar", headerTitleAlign: "left", headerTitle: "Desfazer amizade", headerTitleStyle: { fontSize: 20 }, headerTintColor: "white", headerStyle: { backgroundColor: "#4AACB3" } }} />
     </Stack>
