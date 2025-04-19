@@ -15,8 +15,8 @@ const filtersTabs: Record<TabType, (sticker: any) => boolean> = {
     TODAS: () => true,
     NOVAS: (sticker) => sticker.isNew && !sticker.isRepeated,
     REPETIDAS: (sticker) => sticker.isRepeated,
-  };
-  
+};
+
 
 const handleNext = (page: number, totalPages: number, setPage: (value: React.SetStateAction<number>) => void) => {
     if (page < totalPages - 1) setPage(prev => prev + 1);
