@@ -13,6 +13,7 @@ import Search from "./Search";
 import { ConfirmationModal } from "./ConfirmationModal";
 import FriendsList from "./FriendList";
 import MissionsList from "./MissionsList";
+import MyTicketsList from "./MyTicketsList";
 
 export {
     ControlledSelect,
@@ -29,5 +30,6 @@ export {
     Search,
     ConfirmationModal,
     FriendsList,
-    MissionsList
+    MissionsList,
+    MyTicketsList
 }
