@@ -5,7 +5,8 @@ import {
     ScrollView,
 } from "react-native";
 import { getAlbumProgress } from "@/utils/album-screen";
-import { RenderProgress } from "@/components/common";
+import { RenderProgressAlbum } from "@/components/common";
+import { AreaProgress } from "@/interface/album";
 
 export default function ListCategoriesScreen() {
     const progressData = getAlbumProgress();
@@ -13,9 +14,9 @@ export default function ListCategoriesScreen() {
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-                {progressData.map((item, index) => (
+                {progressData.map((item: AreaProgress, index) => (
                     <View key={index}>
-                        <RenderProgress item={item} />
+                        <RenderProgressAlbum item={item} />
                     </View>
                 ))}
             </ScrollView>
@@ -31,71 +32,5 @@ const styles = StyleSheet.create({
     },
     content: {
         gap: 12
-    },
-    card: {
-        backgroundColor: "white",
-        borderRadius: 12,
-        padding: 16,
-        elevation: 2,
-    },
-    starIconContainer: {
-        position: 'absolute',
-    },
-    starIcon: {
-        width: 15,
-        height: 15,
-        top: 0
-    },
-    miniBar: {
-        width: 2,
-        height: 10,
-        backgroundColor: "#707070",
-        top: 0
-    },
-    itemContainer: {
-        backgroundColor: 'white',
-        borderRadius: 10,
-        padding: 16,
-        gap: 20,
-        flexDirection: 'row',
-        alignItems: 'center',
-        elevation: 1,
-    },
-    contentContainer: {
-        flex: 1,
-        marginRight: 12,
-    },
-    title: {
-        fontSize: 15,
-        fontWeight: '500',
-        color: '#707070',
-        marginBottom: 12,
-    },
-    progressContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 15,
-    },
-    progressBackground: {
-        flex: 1,
-        height: 8,
-        backgroundColor: '#e0e0e0',
-        borderRadius: 4,
-        overflow: 'hidden',
-        position: 'relative',
-        paddingVertical: 5,
-    },
-    progressFill: {
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        bottom: 0,
-        backgroundColor: '#ffa726',
-        borderRadius: 4
-    },
-    progressText: {
-        fontSize: 14,
-        color: '#707070',
-        minWidth: 45,
     }
 });
