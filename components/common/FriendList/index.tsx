@@ -59,7 +59,7 @@ export default function FriendsList({
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 15,
+        paddingHorizontal: 20,
         flexDirection: "row",
         alignItems: "center",
         gap: 12,
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     },
     containerUser: {
         flex: 1,
-        paddingVertical: 10,
+        paddingVertical: 15,
     },
     name: {
         fontSize: 16,
