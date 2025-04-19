@@ -24,20 +24,19 @@ export default function SectionCard({ title, children, onSeeAll }: SectionCardPr
 const styles = StyleSheet.create({
     card: {
         backgroundColor: "#fff",
-        borderRadius: 10
+        borderRadius: 10,
+        paddingVertical: 15
     },
     title: {
         fontSize: 22,
         fontWeight: "600",
         color: "#414141",
         paddingStart: 20,
-        paddingTop: 12
     },
     seeAll: {
         fontSize: 15,
         color: "#2992C4",
         paddingStart: 20,
-        paddingBottom: 12,
         paddingTop: 8
     },
 });
