@@ -1,4 +1,6 @@
-import { Friend, FriendsTabType } from "@/types/friends";
+import { FriendsTabType } from "@/types/friends";
+import { Friend } from "@/interface/friend";
+
 type ModalType = "accept" | "reject" | null;
 
 const filterFriendsByTab = (friends: Friend[], tab: FriendsTabType) => {
