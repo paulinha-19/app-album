@@ -1,8 +1,9 @@
-import { View, StyleSheet, ScrollView } from "react-native"
-import { SectionCard, FriendsList } from "@/components/common"
+import { View, StyleSheet, ScrollView, Text } from "react-native"
+import { SectionCard, FriendsList, MissionsList } from "@/components/common"
 import { UserProfile } from "@/components";
 import { getAlbumProgress } from "@/utils/album-screen";
 import { mockFriends } from "@/data/friends";
+import { mockMissions } from "@/data/missions";
 import { router } from "expo-router";
 
 export default function ProfileScreen() {
@@ -35,6 +36,18 @@ export default function ProfileScreen() {
                         />
                     ))}
                 </SectionCard>
+                <View style={styles.divisor}></View>
+                <SectionCard title="Missões" onSeeAll={() => router.push("/(authenticated)/(tabs)/profile/missions")}>
+                    {mockMissions.slice(0, 2).map((mission) => (
+                        <MissionsList
+                            key={mission.id}
+                            title={mission.title}
+                            subtitle={mission.subtitle}
+                            image={mission.image}
+                            status={mission.status}
+                        />
+                    ))}
+                </SectionCard>
             </ScrollView>
         </View>
     )
@@ -49,6 +62,6 @@ const styles = StyleSheet.create({
         paddingBottom: 20
     },
     divisor: {
-        marginVertical: 10
+        marginVertical: 8
     }
 })
