@@ -12,6 +12,7 @@ import { Toast } from "./Toast";
 import Search from "./Search";
 import { ConfirmationModal } from "./ConfirmationModal";
 import FriendsList from "./FriendList";
+import MissionsList from "./MissionsList";
 
 export {
     ControlledSelect,
@@ -27,5 +28,6 @@ export {
     Toast,
     Search,
     ConfirmationModal,
-    FriendsList
+    FriendsList,
+    MissionsList
 }
