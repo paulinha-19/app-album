@@ -31,8 +31,8 @@ const styles = StyleSheet.create({
         gap: 12
     },
     containerImage: {
-        width: 50,
-        height: 50,
+        width: 45,
+        height: 45,
         backgroundColor: "#EBEBEB",
         borderRadius: 5,
         alignItems: "center",
