@@ -1,0 +1,1 @@
+export type FriendsTabType = "AMIZADES" | "PENDENTES";

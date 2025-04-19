@@ -76,10 +76,14 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderRadius: 5,
         padding: 16,
+
+        // Shadow (iOS)
         shadowColor: "#000",
         shadowOpacity: 0.1,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 4,
+
+        // Shadow (Android)
         elevation: 3,
     },
     fullWidthCard: {

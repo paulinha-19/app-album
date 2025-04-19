@@ -5,7 +5,13 @@ import { SearchBar } from "./SearchBar";
 import Card from "../Card";
 import Tabs from "./Tabs";
 import RenderProgressIndicators from "./RenderProgressIndicators";
-import RenderProgress from "./RenderProgress";
+import RenderProgressAlbum from "./RenderProgressAlbum";
+import { PopoverMenu } from "./PopoverMenu";
+import SectionCard from "./SectionCard";
+import { Toast } from "./Toast";
+import Search from "./Search";
+import { ConfirmationModal } from "./ConfirmationModal";
+import FriendsList from "./FriendList";
 
 export {
     ControlledSelect,
@@ -15,5 +21,11 @@ export {
     Card,
     Tabs,
     RenderProgressIndicators,
-    RenderProgress
+    RenderProgressAlbum,
+    PopoverMenu,
+    SectionCard,
+    Toast,
+    Search,
+    ConfirmationModal,
+    FriendsList
 }

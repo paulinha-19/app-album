@@ -2,32 +2,19 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import RenderProgressIndicators from "../RenderProgressIndicators";
 import { router } from "expo-router";
+import { AreaProgress } from "@/interface/album";
 
 interface Props {
-    item: any;
+    item: AreaProgress;
     onPress?: () => void;
 }
 
-export default function RenderProgress({ item, onPress }: Props) {
-    { console.log(item) }
+export default function RenderProgressAlbum({ item, onPress }: Props) {
     return (
         <View style={styles.itemContainer}>
             <View style={styles.contentContainer}>
                 <Text style={styles.title}>{item.area}</Text>
-                <View style={styles.progressContainer}>
-                    <View style={styles.progressBackground}>
-                        <View
-                            style={[
-                                styles.progressFill,
-                                { width: `${item.progress}%` }
-                            ]}
-                        />
-                    </View>
-                    <RenderProgressIndicators progress={item.progress} />
-                    <Text style={styles.progressText}>
-                        {item.glued}/{item.totalStickers}
-                    </Text>
-                </View>
+                <RenderProgressIndicators progress={item.progress} progressText={`${item.glued}/${item.totalStickers}`} />
             </View>
             <TouchableOpacity onPress={() => router.push({ pathname: "/album", params: { categoryIndex: item.categoryIndex } })}>
                 <Ionicons name="chevron-forward" size={20} color="#999" />

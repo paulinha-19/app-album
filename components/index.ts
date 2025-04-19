@@ -11,6 +11,8 @@ import { UrlSelectionModal } from "./UrlSelectionModal";
 import { BaseModal } from "./BaseModal";
 import { FormInput } from "./FormInput";
 import StoreCard from "./StoreCard";
+import UserProfile from "./UserProfile";
+import { ConfirmationModal } from "./common/ConfirmationModal";
 
 export {
   ControlledInput,
@@ -25,5 +27,7 @@ export {
   UrlSelectionModal,
   BaseModal,
   FormInput,
-  StoreCard
+  StoreCard,
+  UserProfile,
+  ConfirmationModal
 };
